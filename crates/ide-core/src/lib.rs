@@ -141,7 +141,7 @@ impl AppState {
             .unwrap_or_else(|| "sin título".to_string());
         let mark = self.active_buffer().map(|b| b.dirty).unwrap_or(false);
         let dirty_mark = if mark { " ●" } else { "" };
-        format!("{dirty_mark}{file} - mi-ide")
+        format!("{dirty_mark}{file} - EmberIDE")
     }
 
     pub fn dispatch(&mut self, action: &Action) -> Result<()> {
