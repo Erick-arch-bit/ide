@@ -8,6 +8,9 @@ anyhow = { workspace = true }
 log = { workspace = true }
 eframe = { workspace = true }
 egui = { workspace = true }
+rfd = { workspace = true }
 ide-core = { path = "../ide-core" }
 editor = { path = "../editor" }
 workspace = { path = "../workspace" }
+language = { path = "../language" }
+lsp-types = { workspace = true }

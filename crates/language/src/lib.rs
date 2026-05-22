@@ -1,3 +1,9 @@
+#![allow(clippy::collapsible_if)]
+
+pub mod lsp;
+
+pub use lsp::LspClient;
+
 pub fn init() {
-    println!("language listo");
+    log::info!("language crate initialized");
 }
