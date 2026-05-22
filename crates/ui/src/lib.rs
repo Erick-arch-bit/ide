@@ -13,6 +13,9 @@ pub struct EmberApp {
     completion_items: Vec<String>,
     completion_idx: usize,
     hover_text: Option<String>,
+    terminal: Option<terminal::TerminalSession>,
+    terminal_open: bool,
+    terminal_input: String,
 }
 
 impl EmberApp {
@@ -155,8 +158,28 @@ impl eframe::App for EmberApp {
                             ui.close_menu();
                         }
                     });
-                    ui.menu_button("View", |_ui| {});
-                    ui.menu_button("Terminal", |_ui| {});
+                    ui.menu_button("View", |ui| {
+                        let label = if self.terminal_open {
+                            "Hide Terminal"
+                        } else {
+                            "Show Terminal"
+                        };
+                        if ui.button(label).clicked() {
+                            self.terminal_open = !self.terminal_open;
+                            ui.close_menu();
+                        }
+                    });
+                    ui.menu_button("Terminal", |ui| {
+                        let label = if self.terminal_open {
+                            "Hide Terminal"
+                        } else {
+                            "Show Terminal"
+                        };
+                        if ui.button(label).clicked() {
+                            self.terminal_open = !self.terminal_open;
+                            ui.close_menu();
+                        }
+                    });
                     ui.menu_button("Help", |_ui| {});
                 });
             });
@@ -346,6 +369,60 @@ impl eframe::App for EmberApp {
                 });
             });
 
+        // Terminal panel
+        if self.terminal_open {
+            if self.terminal.is_none() {
+                self.terminal = terminal::TerminalSession::new(None).ok();
+                self.terminal_input.clear();
+            }
+            egui::TopBottomPanel::bottom("terminal_panel")
+                .min_height(80.0)
+                .default_height(200.0)
+                .resizable(true)
+                .frame(Frame {
+                    fill: Color32::from_rgb(0x1a, 0x1a, 0x1a),
+                    ..Default::default()
+                })
+                .show(ctx, |ui| {
+                    // Render terminal content
+                    if let Some(ref terminal) = self.terminal {
+                        let content = terminal.contents();
+                        egui::ScrollArea::vertical()
+                            .max_height(ui.available_height() - 28.0)
+                            .show(ui, |ui| {
+                                for line in content.lines() {
+                                    ui.label(
+                                        egui::RichText::new(line)
+                                            .font(egui::FontId::new(13.0, egui::FontFamily::Monospace))
+                                            .color(Color32::from_rgb(0xd0, 0xd0, 0xd0)),
+                                    );
+                                }
+                            });
+                        // Terminal input
+                        ui.separator();
+                        let resp = ui.add(
+                            egui::TextEdit::singleline(&mut self.terminal_input)
+                                .font(egui::FontId::new(13.0, egui::FontFamily::Monospace))
+                                .hint_text("terminal")
+                                .desired_width(f32::INFINITY),
+                        );
+                        if resp.lost_focus() {
+                            resp.request_focus();
+                        }
+                        if ctx.input_mut(|i| i.consume_key(egui::Modifiers::NONE, egui::Key::Enter))
+                            && !self.terminal_input.is_empty()
+                        {
+                            let _ = terminal.write_str(&self.terminal_input);
+                            self.terminal_input.clear();
+                        }
+                    } else {
+                        ui.label("Terminal not available");
+                    }
+                });
+        } else {
+            self.terminal = None;
+        }
+
         // Window title
         ctx.send_viewport_cmd(egui::ViewportCommand::Title(
             self.state.window_title(),
@@ -521,6 +598,9 @@ pub fn run(state: ide_core::AppState) -> anyhow::Result<()> {
                 completion_items: vec![],
                 completion_idx: 0,
                 hover_text: None,
+                terminal: None,
+                terminal_open: false,
+                terminal_input: String::new(),
             }))
         }),
     )

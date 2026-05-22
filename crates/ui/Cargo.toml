@@ -14,3 +14,4 @@ editor = { path = "../editor" }
 workspace = { path = "../workspace" }
 language = { path = "../language" }
 lsp-types = { workspace = true }
+terminal = { path = "../terminal" }

@@ -76,6 +76,7 @@
 | Editor area | (rest) | #1e1e1e | `TextEdit::multiline` (code_editor) or centered "EmberIDE" |
 | Status bar | 22px | #141414 | Current filename or "EmberIDE" in 11px #666666 |
 | Command palette | 420x320px | #252525 | Search input + filtered command list |
+| Terminal panel | 80-200px | #1a1a1a | Shell output (monospace) + input line, resizable, toggleable |
 
 **Invariants:**
 - Must NOT contain file I/O.
@@ -161,14 +162,25 @@
 
 ---
 
-## `terminal` — Integrated terminal (stub)
+## `terminal` — Integrated terminal
 
-**Purpose:** Planned — embedded terminal panel using a PTY.
+**Purpose:** Embedded terminal panel using a PTY (pseudo-terminal). Spawns a shell and renders output via escape sequence parsing.
+
+**Key structs:**
+
+| Name | Kind | Description |
+|------|------|-------------|
+| `TerminalSession` | struct | Manages shell process, PTY I/O, and vt100 parser. |
 
 **Public API:**
+- `TerminalSession::new(Option<&str>) -> Result<Self>` — spawn shell in PTY.
+- `write(&[u8])` / `write_str(&str)` — send input to shell.
+- `resize(rows, cols)` — update terminal dimensions.
+- `contents() -> String` — get current screen text.
+- `rows()` / `cols()` — current dimensions.
 - `init()` — called during startup.
 
-**Status:** Stub. Not yet implemented — planned for Sprint 5.
+**Status:** Complete. Basic terminal with keyboard input. Full escape sequence rendering (colors, bold, cursor) is handled by vt100. Terminal toggle from View/Terminal menus.
 
 ---
 

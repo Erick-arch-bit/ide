@@ -6,3 +6,5 @@ edition = "2024"
 [dependencies]
 anyhow = { workspace = true}
 log = {workspace = true}
+portable-pty = { workspace = true }
+vt100 = { workspace = true }

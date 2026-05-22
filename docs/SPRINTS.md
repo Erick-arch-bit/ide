@@ -6,7 +6,7 @@
 | 2 | File Operations | Open folder via dialog, open/edit/save files, dirty state in title bar. | **Done** | rfd folder dialog, TextEdit editor, file panel clicks, Save menu, dirty window title. |
 | 3 | Tabs & Command Palette | Tab bar with switch/close, command palette with fuzzy filter, keyboard shortcuts. | **Done** | Tab bar with selectable labels, close buttons, command palette `Area`, fuzzy filter, `Ctrl+S`/`Ctrl+P`/`Ctrl+W`. |
 | 4 | LSP Integration | rust-analyzer client: diagnostics, autocomplete, hover, go-to-definition. | **Done** | `LspClient` with JSON-RPC stdio transport, rust-analyzer init, didOpen/didChange/didClose, diagnostics in status bar, completion popup. |
-| 5 | Integrated Terminal | Embedded terminal panel with PTY. | **Pending** | Terminal panel widget, PTY bridge, shell launch. |
+| 5 | Integrated Terminal | Embedded terminal panel with PTY. | **Done** | PTY session via portable-pty + vt100, resizable bottom panel, keyboard input forwarding. |
 | 6 | Extension Host | WASM extension sandbox with failure isolation. | **Pending** | Extension API definition, WASM runtime, host process. |
 | 7 | Search & Navigation | Find in file, find in project, quick-open fuzzy finder. | **Pending** | Search panel, project-wide grep, fuzzy file picker. |
 | 8 | Performance | Lazy loading, incremental parsing, minimal redraws. | **Pending** | Profiling, chunked file loading, redraw optimization. |
@@ -55,7 +55,22 @@
 - `cargo check --workspace` and `cargo clippy -- -D warnings` pass clean.
 - `crates/editor`, `crates/workspace`, `crates/ide-core` unchanged.
 
-### Sprint 4 — LSP Integration
+### Sprint 5 — Integrated Terminal
+
+- Added `portable-pty` and `vt100` to workspace and `crates/terminal` dependencies.
+- Rewrote `crates/terminal/src/lib.rs` with `TerminalSession`:
+  - Spawns bash (or specified shell) in a PTY via `portable-pty` (cross-platform: forkpty on Unix, ConPTY on Windows).
+  - Reads PTY output on a background thread, feeds bytes into `vt100::Parser` for escape sequence processing.
+  - Provides `contents()` to get the current screen text.
+  - Provides `write_str()` to send keyboard input to the shell.
+  - Provides `resize()` to update terminal dimensions.
+- Added `terminal` dependency to `crates/ui`.
+- Terminal panel: resizable `TopBottomPanel::bottom("terminal_panel")` (80px min, 200px default).
+- Scrollable output area renders monospace text from `TerminalSession::contents()`.
+- Single-line input captures keyboard input, sends on Enter.
+- Toggle in View/Terminal menus (Show/Hide Terminal).
+- `cargo check --workspace` and `cargo clippy -- -D warnings` pass clean.
+- `crates/editor`, `crates/workspace`, `crates/ide-core` unchanged.
 
 - Added `serde`, `serde_json`, `lsp-types` to workspace dependencies.
 - `crates/language` rewritten: LspClient with JSON-RPC stdio transport, spawns rust-analyzer.
