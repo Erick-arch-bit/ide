@@ -1,46 +1,46 @@
-# Contributing to EmberIDE
+# Contribuir a EmberIDE
 
-Thank you for your interest in contributing to EmberIDE! This document outlines the workflow and guidelines for collaboration.
+Gracias por tu interés en contribuir a EmberIDE. Este documento describe el flujo de trabajo y las pautas para la colaboración.
 
-## Branch Strategy
+## Estrategia de ramas
 
-EmberIDE uses a three-tier branch workflow:
+EmberIDE utiliza un flujo de trabajo de tres niveles:
 
 ```
 collab → test → dev
 ```
 
-- **`collab`** — Active development branch. Submit your pull requests here.
-- **`test`** — Pre-release testing branch. Changes from `collab` are merged here for validation.
-- **`dev`** — Stable main branch. Only merged from `test` after passing review and testing.
+- **`collab`** — Rama de desarrollo activo. Envía tus pull requests aquí.
+- **`test`** — Rama de pruebas previas al lanzamiento. Los cambios de `collab` se fusionan aquí para validación.
+- **`dev`** — Rama principal estable. Solo se fusiona desde `test` después de pasar las pruebas y revisión.
 
-## Workflow
+## Flujo de trabajo
 
-1. Fork the repository or clone the `collab` branch.
-2. Create a feature branch from `collab`:
+1. Haz un fork del repositorio o clona la rama `collab`.
+2. Crea una rama de características desde `collab`:
 
    ```bash
    git checkout collab
-   git checkout -b feature/my-feature
+   git checkout -b feature/mi-caracteristica
    ```
 
-3. Make your changes and commit them.
-4. Push your branch and open a pull request against `collab`.
-5. After review, changes are merged into `collab`, then promoted to `test` for validation.
-6. Once tested and approved, changes are merged into `dev`.
+3. Realiza tus cambios y haz commit.
+4. Sube tu rama y abre un pull request contra `collab`.
+5. Después de la revisión, los cambios se fusionan en `collab`, luego pasan a `test` para validación.
+6. Una vez probados y aprobados, se fusionan en `dev`.
 
-## Code Style
+## Estilo de código
 
-- Follow Rust standard formatting (`cargo fmt`).
-- Ensure no compiler warnings (`cargo build` without warnings).
-- Write clear, descriptive commit messages.
+- Sigue el formato estándar de Rust (`cargo fmt`).
+- Asegura que no haya advertencias del compilador.
+- Escribe mensajes de commit claros y descriptivos.
 
-## Pull Request Guidelines
+## Guía para pull requests
 
-- Keep PRs focused on a single feature or fix.
-- Include a clear description of what the PR does and why.
-- Ensure the project builds successfully before submitting.
+- Mantén los PR enfocados en una sola característica o corrección.
+- Incluye una descripción clara de qué hace el PR y por qué.
+- Asegúrate de que el proyecto compile correctamente antes de enviar.
 
-## Questions?
+## ¿Preguntas?
 
-Open an issue on GitHub for any questions or suggestions.
+Abre un issue en GitHub para cualquier pregunta o sugerencia.

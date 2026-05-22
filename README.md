@@ -1,60 +1,60 @@
 # EmberIDE
 
-A code editor built with Rust and Slint UI framework.
+Un editor de código construido con Rust y Slint UI.
 
-## About
+## Acerca de
 
-EmberIDE is a lightweight, cross-platform code editor designed for developers who value speed and simplicity. Built from the ground up in Rust, it leverages the Slint UI framework for a native look and feel across all major platforms.
+EmberIDE es un editor de código ligero y multiplataforma, diseñado para desarrolladores que valoran la velocidad y la simplicidad. Construido desde cero en Rust, utiliza Slint UI para una apariencia nativa en todas las plataformas.
 
-## Architecture
+## Arquitectura
 
-The project is organized as a Cargo workspace with the following crates:
+El proyecto está organizado como un workspace de Cargo con los siguientes crates:
 
-| Crate | Description |
+| Crate | Descripción |
 |---|---|
-| `app` | Binary entry point |
-| `ide-core` | Core state, actions, and business logic |
-| `ui` | Slint-based UI components and event handling |
-| `editor` | Text buffer management |
-| `workspace` | Project/file tree management |
-| `language` | Language support |
-| `terminal` | Terminal integration |
-| `extensions` | Extension system |
+| `app` | Punto de entrada binario |
+| `ide-core` | Estado global, acciones y lógica de negocio |
+| `ui` | Componentes de interfaz (Slint) y manejadores de eventos |
+| `editor` | Gestión de buffers de texto |
+| `workspace` | Gestión de proyectos y árbol de archivos |
+| `language` | Soporte de lenguajes |
+| `terminal` | Integración de terminal |
+| `extensions` | Sistema de extensiones |
 
-### Data Flow
+### Flujo de datos
 
 ```
-User Input → UI (Slint) → Event Handlers → ide-core (AppState) → UI Update
+Entrada de usuario → UI (Slint) → Manejadores de eventos → ide-core (AppState) → Actualización de UI
 ```
 
-## Build
+## Compilar
 
-### Prerequisites
+### Requisitos
 
-- Rust (edition 2024)
+- Rust (edición 2024)
 - Cargo
 
-### Commands
+### Comandos
 
 ```bash
-# Build the entire workspace
+# Compilar todo el workspace
 cargo build
 
-# Build and run
+# Compilar y ejecutar
 cargo run -p app
 
-# Run with logs
+# Ejecutar con logs
 RUST_LOG=info cargo run -p app
 ```
 
-## Branches
+## Ramas
 
-- **`collab`** — Development and collaboration
-- **`test`** — Pre-release testing
-- **`dev`** — Stable main branch
+- **`collab`** — Desarrollo y colaboración
+- **`test`** — Pruebas previas al lanzamiento
+- **`dev`** — Rama principal estable
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow.
+Consulta [CONTRIBUTING.md](CONTRIBUTING.md) para el flujo de trabajo completo.
 
-## License
+## Licencia
 
-MIT License — see [LICENSE](LICENSE) for details.
+Licencia MIT — ver [LICENSE](LICENSE) para más detalles.
