@@ -6,8 +6,8 @@ edition = "2024"
 [dependencies]
 anyhow = { workspace = true }
 log = { workspace = true }
-slint = { workspace = true }
-rfd = { workspace = true }
+eframe = { workspace = true }
+egui = { workspace = true }
 ide-core = { path = "../ide-core" }
 editor = { path = "../editor" }
 workspace = { path = "../workspace" }
